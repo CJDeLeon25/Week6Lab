@@ -24,15 +24,8 @@ public class ShoppingListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String action = request.getParameter("action");
-        if(action != null && action.equals("logout")){
-            session.invalidate();
-            session = request.getSession();
-            response.sendRedirect("ShoppingList");
-
-        }
-        else{
-            if(session.getAttribute("username") == null ){
+        
+        if(session.getAttribute("username") == null ){
             getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
 
         }
@@ -40,9 +33,6 @@ public class ShoppingListServlet extends HttpServlet {
             getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(request, response);
 
         }
-        }
-        
-        
         
     }
 
@@ -60,20 +50,22 @@ public class ShoppingListServlet extends HttpServlet {
        }
        else if (action.contains("add")){
            String item = request.getParameter("item");
-
-           itemList = (ArrayList<String>)session.getAttribute("itemList");
-           itemList.add(item);
-
+           if (item != null && !item.equals("")){
+                itemList = (ArrayList<String>)session.getAttribute("itemList");
+                itemList.add(item);
+           }
        }
        else if(action.contains("delete")){
            String listItem = request.getParameter("itemRadio");
            itemList = (ArrayList<String>)session.getAttribute("itemList");
            itemList.remove(listItem);
            session.setAttribute("itemList",itemList);
-       }
+                             System.out.println(action);
 
-     
+       }
     
+    
+
        getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(request, response);
     }
 
