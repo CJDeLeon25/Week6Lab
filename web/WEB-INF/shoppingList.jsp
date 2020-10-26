@@ -15,13 +15,22 @@
     </head>
     <body>
         <h1>Shopping List</h1>
-        <h3>Hello,${username}</h3>
+        <h3>Hello, ${username} <a href="
+        <c:url value = 'ShoppingList?action=logout'/>">Logout<a/> </h3>
         <h2>List</h2>
-        <form action = "post">
+        <form method = "post">
             Add item:<input type ="text" name ="item"> <input type ="submit" value = "Add"><br>
             <input type ="hidden" value ="add" name ="action"> 
-           
+
         </form>
-        
+        <form method = "post">
+            <input type ="hidden" value ="delete" name ="action">
+            <c:forEach items = "${itemList}" var = "item">
+                
+                    <input type = "radio" name = "itemRadio" value = "${item}">${item}<br>
+                
+            </c:forEach>
+                    <input type ="submit" value ="Delete">
+        </form>
     </body>
 </html>
