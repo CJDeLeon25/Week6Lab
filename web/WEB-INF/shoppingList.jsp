@@ -21,7 +21,12 @@
         <form method = "post">
             Add item:<input type ="text" name ="item"> <input type ="submit" value = "Add"><br>
             <input type ="hidden" value ="add" name ="action"> 
-
+            <c:forEach items = "${itemList}" var = "item">
+                <tr>
+                    <td>${item}</td>
+                    
+                </tr>
+            </c:forEach>
         </form>
         <form method = "post">
             <input type ="hidden" value ="delete" name ="action">

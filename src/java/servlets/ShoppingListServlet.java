@@ -56,7 +56,6 @@ public class ShoppingListServlet extends HttpServlet {
        if((action.contains("register"))){
            session.setAttribute("username",username);
            session.setAttribute("itemList",itemList);
-           System.out.println(action);
         
        }
        else if (action.contains("add")){
@@ -64,21 +63,17 @@ public class ShoppingListServlet extends HttpServlet {
 
            itemList = (ArrayList<String>)session.getAttribute("itemList");
            itemList.add(item);
-           System.out.println(action);
 
        }
        else if(action.contains("delete")){
            String listItem = request.getParameter("itemRadio");
            itemList = (ArrayList<String>)session.getAttribute("itemList");
            itemList.remove(listItem);
-           System.out.println("deleted??");
            session.setAttribute("itemList",itemList);
        }
-       else{
-           System.out.println(action);
-       }
-        
-       
+
+     
+    
        getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(request, response);
     }
 
