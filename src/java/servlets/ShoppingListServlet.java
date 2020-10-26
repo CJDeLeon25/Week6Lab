@@ -24,8 +24,15 @@ public class ShoppingListServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        
-        if(session.getAttribute("username") == null ){
+        String action = request.getParameter("action");
+        if(action != null && action.equals("logout")){
+            session.invalidate();
+            session = request.getSession();
+            response.sendRedirect("ShoppingList");
+
+        }
+        else{
+            if(session.getAttribute("username") == null ){
             getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
 
         }
@@ -33,13 +40,38 @@ public class ShoppingListServlet extends HttpServlet {
             getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(request, response);
 
         }
+        }
+        
+        
         
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    
+       HttpSession session = request.getSession();
+       ArrayList<String> itemList = new ArrayList<String>();
+       String action = request.getParameter("action");
+       String username = request.getParameter("username");
+       if((action.contains("register"))){
+           session.setAttribute("username",username);
+           session.setAttribute("itemList",itemList);
+           System.out.println(action);
+          
+
+       }
+       else if (action.contains("add")){
+           String item = request.getParameter("item");
+
+           itemList = (ArrayList<String>)session.getAttribute("itemList");
+           itemList.add(item);
+           System.out.println(action);
+
+       }
+       else{
+           System.out.println(action);
+       }
+        
        
        getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(request, response);
     }
